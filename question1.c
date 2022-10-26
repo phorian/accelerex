@@ -13,19 +13,23 @@ int main(void)
 
     if (curl){
         struct curl_slist *headers=NULL;
-        char *data="name=Opeyemi&project=accelerexInt";
+        char *data = "{ \"userReference\" : \"test\", \"terminalId\" : \"0000\", \"password\" : \"test\", \"deviceId\" : \"111111\"}";
 
         //initialize struct that will hold the request header
+        headers = curl_slist_append(headers, "Accept: application/json");
+        headers = curl_slist_append(headers, "Content-Type:application/json");
         headers = curl_slist_append(headers, "x-source-code: test");
         headers = curl_slist_append(headers, "x-client-id: test");
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 
+        curl_slist_free_all(headers);
+
         //set URL for POST
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data);
-        curl_easy_setopt(curl, CURLOPT_URL, "https://accelerexportal.app:8084/anp/api/v3/linuxpostest/login");
+        curl_easy_setopt(curl, CURLOPT_URL, "https://ng-anl-sandbox-app.accelerexholdings.com/anp/api/v3/linuxpostest/login");
 
         //set login details
-        curl_easy_setopt(curl, CURLOPT_USERPWD, "test:test");
+        curl_easy_setopt(curl, CURLOPT_USERPWD, "username:password");
 
         //Post the HTTP request and store response in 'response' variable
         response = curl_easy_perform(curl);
